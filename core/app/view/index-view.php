@@ -47,7 +47,7 @@
 				endif;
 			else:
 				$dateB = new DateTime(date('Y-m-d')); 
-				$dateA = $dateB->sub(DateInterval::createFromDateString('28 days'));
+				$dateA = $dateB->sub(DateInterval::createFromDateString('1 year'));
 				$sd= strtotime(date_format($dateA,"Y-m-d"));
 				$ed = strtotime(date("Y-m-d"));
 	//$ed = strtotime(date("Y-m-d"));
@@ -59,25 +59,26 @@
 					<div class="panel-heading">Grafica</div>
 					<div id="graph" class="animate" data-animate="fadeInUp" ></div>
 				</div>
-				<script>
+				<div>
+					<script>
 
-					<?php 
-					echo "var c=0;";
-					echo "var dates=Array();";
-					echo "var data=Array();";
-					echo "var total=Array();";
-					for($i=$sd;$i<=$ed;$i+=(60*60*24)){
-						$operations = OperationData::getSumByKindDate(date("Y-m-d",$i),1);
-						$res = OperationData::getSumByKindDate(date("Y-m-d",$i),2);
+						<?php 
+						echo "var c=0;";
+						echo "var dates=Array();";
+						echo "var data=Array();";
+						echo "var total=Array();";
+						for($i=$sd;$i<=$ed;$i+=(60*60*24)){
+							$operations = OperationData::getSumByKindDate(date("Y-m-d",$i),1);
+							$res = OperationData::getSumByKindDate(date("Y-m-d",$i),2);
 //  echo $operations[0]->t;
-						$sr = $res[0]->t!=null?$res[0]->t:0;
-						$sl = $operations[0]->t!=null?$operations[0]->t:0;
-						echo "dates[c]=\"".date("Y-m-d",$i)."\";";
-						echo "data[c]=".($sl-($sr)).";";
-						echo "total[c]={x: dates[c],y: data[c]};";
-						echo "c++;";
-					}
-					?>
+							$sr = $res[0]->t!=null?$res[0]->t:0;
+							$sl = $operations[0]->t!=null?$operations[0]->t:0;
+							echo "dates[c]=\"".date("Y-m-d",$i)."\";";
+							echo "data[c]=".($sl-($sr)).";";
+							echo "total[c]={x: dates[c],y: data[c]};";
+							echo "c++;";
+						}
+						?>
 // Use Morris.Area instead of Morris.Line
 Morris.Area({
 	element: 'graph',
@@ -90,6 +91,7 @@ Morris.Area({
 });
 </script>
 
+</div>
 <div class="box box-primary">
 	<table class="table table-bordered hidden">
 		<thead>
@@ -150,14 +152,14 @@ Morris.Area({
 		<div class="col-md-12">
 			<div class="row">
 				
-				<div class="label label-success col-xs-3 col-sm-4 col-md-5">
+				<div class="label label-success col-xs-4 col-sm-4 col-md-5">
 					<h2 class="text-center">Caja</h2>
 					<h4 class="text-center">$<?php echo number_format($selltotal-($spendtotal+$restotal),2,'.',','); ?></h4>
 				</div>
-				<div class="col-xs-6 col-sm-4 col-md-2">
+				<div class="col-xs-4 col-sm-4 col-md-2">
 
 				</div>
-				<div class="label label-danger col-xs-3 col-sm-4 col-md-5">
+				<div class="label label-danger col-xs-4 col-sm-4 col-md-5">
 					<h2 class="text-center">Gastos</h2>
 					<h4 class="text-center">$<?php echo number_format(($restotal),2,'.',','); ?></h4>
 				</div>
@@ -169,6 +171,12 @@ Morris.Area({
 
 	<br><br><br><br>
 </section>
+<footer class="main-footer">
+	<div class="pull-right hidden-xs">
+		<b>Version</b> 1.0
+	</div>
+	<strong>Copyright &copy; 2018 <a href="" target="_blank">Alan Emiliano Quispe Torrico</a></strong>
+</footer>
 
 </div>
 </div>
